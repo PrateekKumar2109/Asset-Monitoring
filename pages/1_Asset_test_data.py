@@ -25,7 +25,7 @@ def map_plot(df, texts, color, font_size):
             ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
                     color=color)
             
-    plt.title('Platform Data', fontsize=24)  # Increase the size of the title
+    plt.title(' Offshore Platforms', fontsize=24)  # Increase the size of the title
     plt.gca().axes.get_xaxis().set_visible(False)  # Hide x axis
     plt.gca().axes.get_yaxis().set_visible(False)  # Hide y axis
 
