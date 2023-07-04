@@ -33,14 +33,14 @@ def map_plot(df, texts, color, font_size):
 
 st.title('NH Asset Platforms', )
 
-option = st.sidebar.selectbox('Select Option', ('None', 'OP', 'GP', 'WI'), index=0)
+option = st.sidebar.selectbox('Select Option', ('None', 'OP', 'GP', 'WI', 'GI'), index=0)
 
 if option == 'None':
     texts = []
     color = 'black'
     font_size = 16
 elif option == 'OP':
-    texts = ['LIQUID RATE(BLPD)', 'OIL(BOPD)', 'WATER(BWPD)', 'GAS LIFT RATE(M3/DAY)']
+    texts = ['LIQUID RATE(BLPD)', 'OIL(BOPD)']
     color = 'black'
     font_size = 8
 elif option == 'GP':
@@ -52,10 +52,14 @@ elif option == 'WI':
     df_final = df_final[df_final['INJECTION RATE(M3/DAY)'] > 0.1]
     texts = ['INJECTION RATE(M3/DAY)']
     color = 'blue'
-    font_size = 10
+    font_size = 14
+elif option == 'GI':
+    df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
+    texts = ['GAS LIFT RATE(M3/DAY)']
+    color = 'red'
+    font_size = 14
 
 fig = map_plot(df_final, texts, color, font_size)
 st.pyplot(fig)
-
 
 
