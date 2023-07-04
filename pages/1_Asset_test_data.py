@@ -7,10 +7,12 @@ data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/ma
 # Load dataframe here
 df_final = pd.read_csv(data_url)  # replace 'your_data.csv' with your dataframe file path
 
-def map_plot(df, texts, color, font_size):
-    fig, ax = plt.subplots(figsize=(15, 15))
+st.set_page_config(layout="wide") # Make the layout wide
 
-    ax.scatter(df['Longitude'], df['Latitude'], color='blue')
+def map_plot(df, texts, color, font_size):
+    fig, ax = plt.subplots(figsize=(20, 20))  # Increase the size of the plot
+
+    ax.scatter(df['Longitude'], df['Latitude'], color='blue', s=60)  # Increase the size of the points with s
 
     for i in range(len(df)):
         row = df.iloc[i]
@@ -22,12 +24,13 @@ def map_plot(df, texts, color, font_size):
             ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
                     color=color)
             
-    plt.title('Platform Data')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    plt.title('Platform Data', fontsize=24)  # Increase the size of the title
+    plt.gca().axes.get_xaxis().set_visible(False)  # Hide x axis
+    plt.gca().axes.get_yaxis().set_visible(False)  # Hide y axis
+
     return fig
 
-st.title('NH Asset Platforms')
+st.title('NH Asset Platforms', )
 
 option = st.sidebar.selectbox('Select Option', ('None', 'OP', 'GP', 'WI'), index=0)
 
