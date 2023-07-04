@@ -7,8 +7,7 @@ data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/ma
 # Load dataframe here
 df_final = pd.read_csv(data_url)  # replace 'your_data.csv' with your dataframe file path
 
-
-def map_plot(df, texts):
+def map_plot(df, texts, color):
     fig, ax = plt.subplots(figsize=(15, 15))
 
     ax.scatter(df['Longitude'], df['Latitude'], color='blue')
@@ -16,8 +15,8 @@ def map_plot(df, texts):
     for i in range(len(df)):
         row = df.iloc[i]
         ax.text(row['Longitude'], row['Latitude'], 
-                "\n".join([f"{text}: {row[text]}" for text in texts]),
-                va='bottom', ha='left', fontsize=8,
+                f"{row['Platform']}\n" + "\n".join([f"{text}: {row[text]}" for text in texts]),
+                va='bottom', ha='left', fontsize=8, color=color,
                 bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
     plt.title('Platform Data')
@@ -27,15 +26,21 @@ def map_plot(df, texts):
 
 st.title('NH Asset Platforms')
 
-option = st.sidebar.selectbox('Select Option', ('OP', 'GP', 'WI'), index=0)
+option = st.sidebar.selectbox('Select Option', ('None', 'OP', 'GP', 'WI'), index=0)
 
-if option == 'OP':
+if option == 'None':
+    texts = []
+    color = 'black'
+elif option == 'OP':
     texts = ['LIQUID RATE(BLPD)', 'OIL(BOPD)', 'WATER(BWPD)', 'GAS LIFT RATE(M3/DAY)']
+    color = 'black'
 elif option == 'GP':
     texts = ['Free gas']
+    color = 'green'
 elif option == 'WI':
     texts = ['INJECTION RATE(M3/DAY)']
+    color = 'blue'
 
-fig = map_plot(df_final, texts)
+fig = map_plot(df_final, texts, color)
 st.pyplot(fig)
 
