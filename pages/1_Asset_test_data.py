@@ -40,6 +40,7 @@ if option == 'None':
     color = 'black'
     font_size = 16
 elif option == 'OP':
+    df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
     texts = ['LIQUID RATE(BLPD)', 'OIL(BOPD)']
     color = 'black'
     font_size = 8
