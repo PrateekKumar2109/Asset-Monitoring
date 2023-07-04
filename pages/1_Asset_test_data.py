@@ -16,9 +16,8 @@ def map_plot(df, texts, color):
     for i in range(len(df)):
         row = df.iloc[i]
         ax.text(row['Longitude'], row['Latitude'], 
-                f"{row['Platform']}\n" + "\n".join([str(row[text]) for text in texts]),
-                va='bottom', ha='left', fontsize=14, color=color,
-                bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+                f"{row['Platform']}\n" + "\n".join([f"{text}: {row[text]}" for text in texts]),
+                va='bottom', ha='left', fontsize=16, color=color)
 
     plt.title('Platform Data')
     plt.xlabel('Longitude')
