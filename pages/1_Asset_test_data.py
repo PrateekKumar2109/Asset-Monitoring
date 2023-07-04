@@ -48,7 +48,7 @@ elif option == 'GP':
     df_final = df_final[df_final['Free gas'] > 0.1]
     texts = ['Free gas']
     color = 'green'
-    font_size = 11
+    font_size = 16
 elif option == 'WI':
     df_final = df_final[df_final['INJECTION RATE(M3/DAY)'] > 0.1]
     texts = ['INJECTION RATE(M3/DAY)']
@@ -58,7 +58,7 @@ elif option == 'GI':
     df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
     texts = ['GAS LIFT RATE(M3/DAY)']
     color = 'red'
-    font_size = 14
+    font_size = 11
 
 fig = map_plot(df_final, texts, color, font_size)
 st.pyplot(fig)
