@@ -11,7 +11,7 @@ st.set_page_config(layout="wide") # Make the layout wide
 
 def map_plot(df, texts, color, font_size):
     fig, ax = plt.subplots(figsize=(20, 16))  # Increase the size of the plot
-    ax.set_facecolor('lightgrey') # set light background in the plot
+    ax.set_facecolor('#e6f3ff') # set light background in the plot
     ax.scatter(df['Longitude'], df['Latitude'], color='blue', s=60)  # Increase the size of the points with s
 
 
