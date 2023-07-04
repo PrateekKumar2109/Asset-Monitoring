@@ -10,7 +10,7 @@ df_final = pd.read_csv(data_url)  # replace 'your_data.csv' with your dataframe 
 st.set_page_config(layout="wide") # Make the layout wide
 
 def map_plot(df, texts, color, font_size):
-    fig, ax = plt.subplots(figsize=(20, 16))  # Increase the size of the plot
+    fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  # Increase the size of the plot
     ax.set_facecolor('#e6f3ff') # set light background in the plot
     ax.scatter(df['Longitude'], df['Latitude'], color='blue', s=60)  # Increase the size of the points with s
 
