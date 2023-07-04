@@ -48,7 +48,7 @@ elif option == 'WI':
     df_final = df_final[df_final['INJECTION RATE(M3/DAY)'] > 0.1]
     texts = ['INJECTION RATE(M3/DAY)']
     color = 'blue'
-    font_size = 14
+    font_size = 10
 
 fig = map_plot(df_final, texts, color, font_size)
 st.pyplot(fig)
