@@ -6,7 +6,7 @@ import numpy as np
 data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final2.csv"
 # Load dataframe here
 df_final = pd.read_csv(data_url)  
-df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
+df_final=df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
 
 st.set_page_config(layout="wide") 
 
