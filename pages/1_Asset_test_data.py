@@ -30,10 +30,10 @@ def map_plot(df, texts, color, font_size):
 
     # Define lines details
     lines = [
-        {"start_lat": 18.72, "start_lon": 72.315, "length": 0.05, "angle": 30},
-        {"start_lat": 18.77, "start_lon": 72.31, "length": 0.05, "angle": -20},
-        {"start_lat": 18.50, "start_lon": 72.24, "length": 0.05, "angle": 5},
-        {"start_lat": 18.61, "start_lon": 72.259, "length": 0.05, "angle": 130}
+        {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30},
+        {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -15},
+        {"start_lat": 18.50, "start_lon": 72.24, "length": 0.02, "angle": 10},
+        {"start_lat": 18.609, "start_lon": 72.259, "length": 0.1, "angle": 145}
     ]
 
     # Add dashed lines
