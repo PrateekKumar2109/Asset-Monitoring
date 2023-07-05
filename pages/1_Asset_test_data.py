@@ -26,7 +26,7 @@ def map_plot(df, texts, font_size):
                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
         else:
             ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
-                    color='orange' if row['Rig'] == 'yes' else 'black')
+                    color='green' if row['Rig'] == 'yes' else 'black')
 
     # Define lines details
     lines = [
