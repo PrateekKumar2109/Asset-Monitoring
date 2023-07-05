@@ -1,8 +1,8 @@
-#import cartopy
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-#import cartopy.crs as ccrs
+
 data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final2.csv"
 # Load dataframe here
 df_final = pd.read_csv(data_url)  # replace 'your_data.csv' with your dataframe file path
