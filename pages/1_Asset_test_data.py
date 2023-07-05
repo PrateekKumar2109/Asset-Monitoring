@@ -6,7 +6,13 @@ import numpy as np
 data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final2.csv"
 # Load dataframe here
 df_final = pd.read_csv(data_url)  
-df_final=df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
+# Setting 'Free gas' value to 0.0 where 'Platform type' is either 'Process Complex' or 'Flare'
+df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
+
+# Display the rows where 'Platform type' is 'Process Complex' or 'Flare'
+display_rows = df_final[df_final['Platform type'].isin(['Process Complex', 'Flare'])]
+
+print(display_rows)
 
 st.set_page_config(layout="wide") 
 
