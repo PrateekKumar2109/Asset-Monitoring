@@ -4,22 +4,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final2.csv"
-# Load dataframe here
 df_final = pd.read_csv(data_url)  
-# Setting 'Free gas' value to 0.0 where 'Platform type' is either 'Process Complex' or 'Flare'
-df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.005
-
-# Display the rows where 'Platform type' is 'Process Complex' or 'Flare'
-display_rows = df_final[df_final['Platform type'].isin(['Process Complex', 'Flare'])]
-
-print(display_rows)
+df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
 
 st.set_page_config(layout="wide") 
 
 def map_plot(df, texts, color, font_size):
     fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
     ax.set_facecolor('#e6f3ff') 
-    ax.scatter(df['Longitude'], df['Latitude'], color='blue', s=60) 
+    ax.scatter(df['Longitude'], df['Latitude'], color='blue', s=60)  
 
     for i in range(len(df)):
         row = df.iloc[i]
@@ -34,16 +27,22 @@ def map_plot(df, texts, color, font_size):
         else:
             ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
                     color=color)
-    # Add a dashed line
-    start_lat = 18.710
-    start_lon = 72.315
-    angle = np.deg2rad(30)  # Convert the angle to radians
-    # Length of the line
-    length = 0.1  # Change this value to adjust the length of the line
-    end_lat = start_lat + length * np.sin(angle)
-    end_lon = start_lon + length * np.cos(angle)
-    plt.plot([start_lon, end_lon], [start_lat, end_lat], linestyle='dashed', color='black')
-            
+
+    # Define lines details
+    lines = [
+        {"start_lat": 18.72, "start_lon": 72.315, "length": 0.1, "angle": 30},
+        {"start_lat": 18.77, "start_lon": 72.31, "length": 0.1, "angle": -30},
+        {"start_lat": 18.50, "start_lon": 72.24, "length": 0.1, "angle": -10},
+        {"start_lat": 18.61, "start_lon": 72.245, "length": 0.1, "angle": 150}
+    ]
+
+    # Add dashed lines
+    for line in lines:
+        angle_rad = np.deg2rad(line["angle"])
+        end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
+        end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
+        plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
+
     plt.title(' Offshore Platforms', fontsize=24)  
     plt.gca().axes.get_xaxis().set_visible(False)  
     plt.gca().axes.get_yaxis().set_visible(False) 
@@ -81,3 +80,4 @@ elif option == 'GI':
 
 # Create the map plot and add it to the Streamlit app
 st.pyplot(map_plot(df_final, texts, color, font_size))
+
