@@ -39,8 +39,10 @@ def map_plot(df, texts, font_size, show_lines=False):
             end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
             end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
             plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
+            
             for text, va, ha in line['texts']:
-                ax.text(line["start_lon"], line["start_lat"], text, va=va, ha=ha, fontsize=font_size,
+                text_x, text_y = (end_lon, end_lat) if line is lines[3] else (line["start_lon"], line["start_lat"])
+                ax.text(text_x, text_y, text, va=va, ha=ha, fontsize=font_size,
                         color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
     plt.title('Offshore Platforms', fontsize=24)  
@@ -87,4 +89,5 @@ elif option == 'GI':
     font_size = 11
 
 st.pyplot(map_plot(df_final, texts, font_size, show_lines))
+
 
