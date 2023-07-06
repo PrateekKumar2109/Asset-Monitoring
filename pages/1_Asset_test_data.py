@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final2.csv"
-df_final = pd.read_csv(data_url)  
-df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
-
+data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
+df_fin = pd.read_csv(data_url)  
+#df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
+df_final = df_fin[df_fin["Platform type"] == "Well head"]
 st.set_page_config(layout="wide") 
 
 def map_plot(df, texts, font_size):
