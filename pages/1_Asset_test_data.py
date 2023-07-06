@@ -81,8 +81,9 @@ elif option == 'WI':
 elif option == 'GI':
     df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
     column_rename_dict = {'GAS LIFT RATE(M3/DAY)': "GI m3/d"}
-    df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
+    
     df_final.rename(columns=column_rename_dict, inplace=True)
+    df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
     texts = ["GI m3/d"]
     font_size = 11
 
