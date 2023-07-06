@@ -61,21 +61,27 @@ elif option == 'OP':
     # Rename the columns
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
     df_final.rename(columns=column_rename_dict, inplace=True)
+    # Convert the float values in the "L blpd" and "O bopd" columns to integers
+    df_final["L blpd"] = df_final["L blpd"].astype(int)
+    df_final["O bopd"] = df_final["O bopd"].astype(int)
     texts = ["L blpd", "O bopd"]
     font_size = 8
 elif option == 'GP':
     df_final = df_final[df_final['Free gas'] > 0.1]
+    df_final['Free gas'] = df_final['Free gas'].astype(int)
     texts = ['Free gas']
     font_size = 16
 elif option == 'WI':
     df_final = df_final[df_final['INJECTION RATE(M3/DAY)'] > 0.1]
     column_rename_dict = {'INJECTION RATE(M3/DAY)': "WI bwpd"}
     df_final.rename(columns=column_rename_dict, inplace=True)
+    df_final["WI bwpd"] = df_final["WI bwpd"].astype(int)
     texts = ["WI bwpd"]
     font_size = 14
 elif option == 'GI':
     df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
     column_rename_dict = {'GAS LIFT RATE(M3/DAY)': "GI m3/d"}
+    df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
     df_final.rename(columns=column_rename_dict, inplace=True)
     texts = ["GI m3/d"]
     font_size = 11
