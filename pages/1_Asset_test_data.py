@@ -77,7 +77,7 @@ elif option == 'GI':
     df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
     column_rename_dict = {'GAS LIFT RATE(M3/DAY)': "GI m3/d"}
     df_final.rename(columns=column_rename_dict, inplace=True)
-    texts = ['GAS LIFT RATE(M3/DAY)']
+    texts = ["GI m3/d"]
     font_size = 11
 
 # Create the map plot and add it to the Streamlit app
