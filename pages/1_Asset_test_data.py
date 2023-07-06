@@ -6,15 +6,13 @@ import seaborn as sns
 
 data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
 df_fin = pd.read_csv(data_url)  
-#df_final.loc[df_final['Platform type'].isin(['Process Complex', 'Flare']), 'Free gas'] = 0.0
 df_final = df_fin[df_fin["Platform type"] == "Well head"]
 st.set_page_config(layout="wide") 
 
-def map_plot(df, texts, font_size):
+def map_plot(df, texts, font_size, show_lines=False):
     fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
     ax.set_facecolor('#e6f3ff') 
 
-    # Create a scatter plot with different colors for each 'Field' value
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
 
     for i in range(len(df)):
@@ -28,22 +26,24 @@ def map_plot(df, texts, font_size):
             ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
                     color='green' if row['Rig'] == 'yes' else 'black')
 
-    # Define lines details
-    lines = [
-        {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30},
-        {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13},
-        {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12},
-        {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145}
-    ]
+    if show_lines:
+        lines = [
+            {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30, "texts": [("Sector-I", 'bottom', 'left')]},
+            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'bottom', 'left'), ("Sector-III", 'top', 'left')]},
+            {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12, "texts": [("South Heera", 'bottom', 'left')]},
+            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145, "texts": [("Mid Heera", 'bottom', 'right'), ("North Heera", 'top', 'right')]}
+        ]
 
-    # Add dashed lines
-    for line in lines:
-        angle_rad = np.deg2rad(line["angle"])
-        end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
-        end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
-        plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
+        for line in lines:
+            angle_rad = np.deg2rad(line["angle"])
+            end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
+            end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
+            plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
+            for text, va, ha in line['texts']:
+                ax.text(line["start_lon"], line["start_lat"], text, va=va, ha=ha, fontsize=font_size,
+                        color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
-    plt.title(' Offshore Platforms', fontsize=24)  
+    plt.title('Offshore Platforms', fontsize=24)  
     plt.gca().axes.get_xaxis().set_visible(False)  
     plt.gca().axes.get_yaxis().set_visible(False) 
 
@@ -53,15 +53,15 @@ st.title('NH Asset Platforms')
 
 option = st.sidebar.selectbox('Select Option', ('None', 'OP', 'GP', 'WI', 'GI'), index=0)
 
+show_lines = False
 if option == 'None':
     texts = []
     font_size = 16
+    show_lines = True
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
-    # Rename the columns
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
     df_final.rename(columns=column_rename_dict, inplace=True)
-    # Convert the float values in the "L blpd" and "O bopd" columns to integers
     df_final["L blpd"] = df_final["L blpd"].astype(int)
     df_final["O bopd"] = df_final["O bopd"].astype(int)
     texts = ["L blpd", "O bopd"]
@@ -81,11 +81,10 @@ elif option == 'WI':
 elif option == 'GI':
     df_final = df_final[df_final['GAS LIFT RATE(M3/DAY)'] > 0.1]
     column_rename_dict = {'GAS LIFT RATE(M3/DAY)': "GI m3/d"}
-    
     df_final.rename(columns=column_rename_dict, inplace=True)
     df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
     texts = ["GI m3/d"]
     font_size = 11
 
-# Create the map plot and add it to the Streamlit app
-st.pyplot(map_plot(df_final, texts, font_size))
+st.pyplot(map_plot(df_final, texts, font_size, show_lines))
+
