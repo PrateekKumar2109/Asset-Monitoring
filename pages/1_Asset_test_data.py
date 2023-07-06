@@ -58,7 +58,10 @@ if option == 'None':
     font_size = 16
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
-    texts = ['LIQUID RATE(BLPD)', 'OIL(BOPD)']
+    # Rename the columns
+    column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
+    df_final.rename(columns=column_rename_dict, inplace=True)
+    texts = ["L blpd", "O bopd"]
     font_size = 8
 elif option == 'GP':
     df_final = df_final[df_final['Free gas'] > 0.1]
