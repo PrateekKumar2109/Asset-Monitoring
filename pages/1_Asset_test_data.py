@@ -29,9 +29,9 @@ def map_plot(df, texts, font_size, show_lines=False):
     if show_lines:
         lines = [
             {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30, "texts": [("Sector-I", 'bottom', 'left')]},
-            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'bottom', 'left'), ("Sector-III", 'top', 'left')]},
+            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'top', 'left'), ("Sector-III", 'bottom', 'left')]},
             {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12, "texts": [("South Heera", 'bottom', 'left')]},
-            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145, "texts": [("Mid Heera", 'bottom', 'right'), ("North Heera", 'top', 'right')]}
+            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
         ]
 
         for line in lines:
