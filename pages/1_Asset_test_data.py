@@ -41,8 +41,9 @@ def map_plot(df, texts, font_size, show_lines=False):
             plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
             
             for text, va, ha in line['texts']:
+                a=0.1,b=0.1
                 text_x, text_y = (end_lon, end_lat) if line is lines[3] else (line["start_lon"], line["start_lat"])
-                ax.text(text_x, text_y, text, va=va, ha=ha, fontsize=font_size,
+                ax.text(text_x-a, text_y-b, text, va=va, ha=ha, fontsize=font_size,
                         color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
     plt.title('Offshore Platforms', fontsize=24)  
