@@ -72,8 +72,8 @@ elif option == 'GP':
     texts = ['Free gas']
     font_size = 16
 elif option == 'WI':
-    df_final = df_final[df_final['INJECTION RATE(M3/DAY)'] > 0.1]
-    column_rename_dict = {'INJECTION RATE(M3/DAY)': "WI bwpd"}
+    df_final = df_final[df_final['Injection rate bwpd'] > 0.1]
+    column_rename_dict = {'Injection rate bwpd': "WI bwpd"}
     df_final.rename(columns=column_rename_dict, inplace=True)
     df_final["WI bwpd"] = df_final["WI bwpd"].astype(int)
     texts = ["WI bwpd"]
