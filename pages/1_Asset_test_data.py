@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-data_url = "https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
-df_fin = pd.read_csv(data_url)
+data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
+df_fin = pd.read_csv(data_url)  
 df_final = df_fin[df_fin["Platform type"] == "Well head"]
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide") 
 
 def map_plot(df, texts, font_size, show_lines=False):
-    fig, ax = plt.subplots(figsize=(20, 16), dpi=600)
-    ax.set_facecolor('#e6f3ff')
+    fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
+    ax.set_facecolor('#e6f3ff') 
 
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
 
@@ -28,24 +28,29 @@ def map_plot(df, texts, font_size, show_lines=False):
 
     if show_lines:
         lines = [
-            {"start_lat": 18.68, "start_lon": 72.36, "end_lat": 18.72, "end_lon": 72.315, "texts": [("Sector-I", 'bottom', 'left')]},
-            {"start_lat": 18.70, "start_lon": 72.309, "end_lat": 18.77, "end_lon": 72.29, "texts": [("Sector-II", 'top', 'left'), ("Sector-III", 'bottom', 'left')]},
-            {"start_lat": 18.49, "start_lon": 72.27, "end_lat": 18.50, "end_lon": 72.24, "texts": [("South Heera", 'bottom', 'left')]},
-            {"start_lat": 18.58, "start_lon": 72.22, "end_lat": 18.609, "end_lon": 72.259, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
+            {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30, "texts": [("Sector-I", 'bottom', 'left')]},
+            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'top', 'left'), ("Sector-III", 'bottom', 'left')]},
+            {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12, "texts": [("South Heera", 'bottom', 'left')]},
+            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
         ]
 
         for line in lines:
-            plt.plot([line["start_lon"], line["end_lon"]], [line["start_lat"], line["end_lat"]], linestyle='dashed', color='black')
-
+            angle_rad = np.deg2rad(line["angle"])
+            end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
+            end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
+            plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
+            
             for text, va, ha in line['texts']:
-                text_x = line["end_lon"] - 0.02
-                text_y = line["end_lat"] - 0.015
+                
+                text_x, text_y = (end_lon, end_lat) if line is lines[3] else (line["start_lon"], line["start_lat"])
+                text_x -= 0.02  # Shift text_x by -0.1
+                text_y -= 0.015  # Shift text_y by -0.1
                 ax.text(text_x, text_y, text, va=va, ha=ha, fontsize=font_size,
                         color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
-    plt.title('Offshore Platforms', fontsize=24)
-    plt.gca().axes.get_xaxis().set_visible(False)
-    plt.gca().axes.get_yaxis().set_visible(False)
+    plt.title('Offshore Platforms', fontsize=24)  
+    plt.gca().axes.get_xaxis().set_visible(False)  
+    plt.gca().axes.get_yaxis().set_visible(False) 
 
     return fig
 
@@ -87,4 +92,3 @@ elif option == 'GI':
     font_size = 11
 
 st.pyplot(map_plot(df_final, texts, font_size, show_lines))
-
