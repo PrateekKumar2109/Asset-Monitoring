@@ -31,7 +31,7 @@ def map_plot(df, texts, font_size, show_lines=False):
             {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30, "texts": [("Sector-I", 'bottom', 'left')]},
             {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'top', 'left'), ("Sector-III", 'bottom', 'left')]},
             {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12, "texts": [("South Heera", 'bottom', 'left')]},
-            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.08, "angle": 145, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
+            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.06, "angle": 145, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
         ]
 
         for line in lines:
@@ -43,7 +43,7 @@ def map_plot(df, texts, font_size, show_lines=False):
             for text, va, ha in line['texts']:
                 
                 text_x, text_y = (end_lon, end_lat) if line is lines[3] else (line["start_lon"], line["start_lat"])
-                text_x -= 0.02  # Shift text_x by -0.1
+                text_x -= 0.015  # Shift text_x by -0.1
                 text_y -= 0.015  # Shift text_y by -0.1
                 ax.text(text_x, text_y, text, va=va, ha=ha, fontsize=font_size,
                         color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
