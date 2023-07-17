@@ -86,5 +86,5 @@ for platform in selected_platforms:
                               plot_bgcolor='white',
                               xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='lightgrey'),
                               yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='lightgrey'),
-                              hoverlabel=dict(bgcolor="white", font_size=16, font_family="Rockwell"))
+                              hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"))
             st.plotly_chart(fig)
