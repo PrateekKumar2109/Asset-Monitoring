@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objs as go
 
 # Set page title and favicon
 st.set_page_config(page_title="Production Data Dashboard", page_icon=":oil_drum:")
@@ -27,6 +28,13 @@ platforms = {
 # Define the names of the metrics to be plotted
 metrics = ['Liquid , blpd', 'Oil,bopd', 'Total Gas,  MMSCMD']
 
+# Define the colors for the metrics
+metric_colors = {
+    'Liquid , blpd': 'brown',
+    'Oil,bopd': 'green',
+    'Total Gas,  MMSCMD': 'red'
+}
+
 st.title("Production Data Dashboard")
 
 # Create a sidebar for deselecting the platforms
@@ -50,7 +58,25 @@ for platform in selected_platforms:
         
         # Plot the data for the current platform and metric
         for col in metric_cols:
-            fig = px.line(df, x='DATE', y=col, title=f'{platform} - {col}')
-            fig.update_xaxes(rangeslider_visible=True)
-            st.plotly_chart(fig)
+            if metric == 'Total Gas,  MMSCMD':
+                tooltip_data = 'Gas Remark'
+            else:
+                tooltip_data = 'Remark'
+                
+            fig = go.Figure()
 
+            fig.add_trace(go.Scatter(x=df['DATE'], 
+                                     y=df[col], 
+                                     mode='lines', 
+                                     name=col, 
+                                     marker_color=metric_colors[metric], 
+                                     hovertemplate = 
+                                     '<b>Date</b>: %{x}<br>'+
+                                     '<b>'+col+'</b>: %{y}<br>'+
+                                     '<b>'+tooltip_data+'</b>: %{customdata}', 
+                                     customdata = df[tooltip_data]))
+            fig.update_layout(title=f'{platform} - {col}',
+                              xaxis_title='Date',
+                              yaxis_title=metric,
+                              hovermode="x unified")
+            st.plotly_chart(fig)
