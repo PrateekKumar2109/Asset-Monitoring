@@ -62,7 +62,9 @@ for platform in selected_platforms:
                 tooltip_data = 'Gas Remark'
             else:
                 tooltip_data = 'Remark'
-                
+
+            split_remark = df[tooltip_data].str.wrap(20)  # Wrap text to approx 20 characters
+            
             fig = go.Figure()
 
             fig.add_trace(go.Scatter(x=df['DATE'], 
@@ -74,9 +76,15 @@ for platform in selected_platforms:
                                      '<b>Date</b>: %{x}<br>'+
                                      '<b>'+col+'</b>: %{y}<br>'+
                                      '<b>'+tooltip_data+'</b>: %{customdata}', 
-                                     customdata = df[tooltip_data]))
+                                     customdata = split_remark))
             fig.update_layout(title=f'{platform} - {col}',
                               xaxis_title='Date',
                               yaxis_title=metric,
-                              hovermode="x unified")
+                              hovermode="x unified",
+                              title_font=dict(size=24, color='darkblue'),
+                              showlegend=True,
+                              plot_bgcolor='white',
+                              xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='lightgrey'),
+                              yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='lightgrey'),
+                              hoverlabel=dict(bgcolor="white", font_size=16, font_family="Rockwell"))
             st.plotly_chart(fig)
