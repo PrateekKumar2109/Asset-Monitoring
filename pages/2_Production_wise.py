@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-#import openpyxl
 
 # Set page title and favicon
 st.set_page_config(page_title="Production Data Dashboard", page_icon=":oil_drum:")
@@ -26,30 +25,32 @@ platforms = {
 }
 
 # Define the names of the metrics to be plotted
-metrics = ['Liquid , blpd', 'Oil,bopd']
+metrics = ['Liquid , blpd', 'Oil,bopd', 'Total Gas,  MMSCMD']
 
 st.title("Production Data Dashboard")
-st.sidebar.markdown("## Select Platforms")
+
 # Create a sidebar for deselecting the platforms
+st.sidebar.markdown("## Select Platforms")
 selected_platforms = st.sidebar.multiselect('', list(platforms.keys()), default=list(platforms.keys()))
+
+# Create a sidebar for deselecting the metrics
+st.sidebar.markdown("## Select Metrics")
+selected_metrics = st.sidebar.multiselect('', metrics, default=metrics)
 
 # Create the plots
 for platform in selected_platforms:
     st.header(platform)
     
-    for metric in metrics:
+    for metric in selected_metrics:
         # Select the appropriate columns for the current platform
         cols = df.columns[platforms[platform]]
         
-        # Filter out the columns that don't match the current metric
+        # Filter out the columns that match the current metric
         metric_cols = [col for col in cols if metric in col]
         
         # Plot the data for the current platform and metric
         for col in metric_cols:
             fig = px.line(df, x='DATE', y=col, title=f'{platform} - {col}')
             fig.update_xaxes(rangeslider_visible=True)
-            st.plotly_chart(fig)          
-with fig_col2:
-            st.markdown("### Gas Production Pie Chart")
-            fig_2 = px.pie(data_frame=df_data_filtered,values=df_data_filtered['Qg (Assoc. Gas), m3/d'])
-            st.write(fig_2)
+            st.plotly_chart(fig)
+
