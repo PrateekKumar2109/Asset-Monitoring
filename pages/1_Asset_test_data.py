@@ -1,4 +1,7 @@
 
+st.title('NH Asset Platforms')
+
+
 
 import streamlit as st
 import pandas as pd
@@ -31,11 +34,25 @@ area_coords = {
 
 st.set_page_config(layout="wide") 
 
-def map_plot(df, texts, font_size, show_lines=False):
+
+def map_plot(df, df_reserves, texts, font_size, show_lines=False):
     fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
     ax.set_facecolor('#e6f3ff') 
 
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
+    
+    selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
+    for area in df_reserves['area'].unique():
+        if area in area_coords:
+            df_area = df_reserves[df_reserves['area'] == area]
+            for column in selected_columns:
+                value = df_area[column].sum()  # or any other aggregation you need
+                plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
+                         color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+
+    # Rest of your code as is...
+
+
 
     for i in range(len(df)):
         row = df.iloc[i]
