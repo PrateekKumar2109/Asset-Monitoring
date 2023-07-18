@@ -45,8 +45,6 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
                 plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
                          color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
-    # Rest of your code as is...
-
 
 
     for i in range(len(df)):
