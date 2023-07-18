@@ -1,12 +1,34 @@
+
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-data_url="https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
+# existing data
+data_url = "https://raw.githubusercontent.com/PrateekKumar2109/Asset-Monitoring/main/df_final3.csv"
 df_fin = pd.read_csv(data_url)  
 df_final = df_fin[df_fin["Platform type"] == "Well head"]
+
+# new data
+reserves_url = "https://raw.githubusercontent.com/PrateekKumar2109/Assset-production-monitoring/main/Data/updated_dataframe.csv"
+df_reserves = pd.read_csv(reserves_url)
+
+# filter df_reserves
+df_reserves = df_reserves[(df_reserves['Status'] == 'Producing') & (df_reserves['Category'] == '2P')]
+
+# mapping of area names to coordinates
+area_coords = {
+    'B134': {'lat': 18.73, 'long': 72.295},
+    'B173A': {'lat': 18.68, 'long': 72.31},
+    'Heera': {'lat': 18.47, 'long': 72.24},
+    'Neelam': {'lat': 18.68, 'long': 72.26},
+    'NW B173A': {'lat': 18.92, 'long': 72.26},
+    'Ratna and R-Series': {'lat': 18.28, 'long': 72.25},
+}
+
+
 st.set_page_config(layout="wide") 
 
 def map_plot(df, texts, font_size, show_lines=False):
@@ -63,6 +85,17 @@ if option == 'None':
     texts = []
     font_size = 16
     show_lines = True
+    # new plot
+    selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
+    for area in df_reserves['area'].unique():
+        if area in area_coords:
+            df_area = df_reserves[df_reserves['area'] == area]
+            for column in selected_columns:
+                value = df_area[column].sum()  # or any other aggregation you need
+                plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
+                         color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+
+    st.pyplot(map_plot(df_final, texts, font_size, show_lines))
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
