@@ -37,6 +37,10 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
     
     selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
+    
+    # Safety check: Make sure 'area' column exists in df_reserves
+    if 'area' not in df_reserves.columns:
+        raise ValueError("'area' column not found in df_reserves DataFrame")
     for area in df_reserves['area'].unique():
         if area in area_coords:
             df_area = df_reserves[df_reserves['area'] == area]
