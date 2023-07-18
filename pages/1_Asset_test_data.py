@@ -95,7 +95,7 @@ if option == 'None':
                 plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
                          color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
-    st.pyplot(map_plot(df_final, texts, font_size, show_lines))
+    #st.pyplot(map_plot(df_final, texts, font_size, show_lines))
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
