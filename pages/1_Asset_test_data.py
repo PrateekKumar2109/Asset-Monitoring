@@ -142,6 +142,4 @@ elif option == 'GI':
 print(f"Type of df_reserves: {type(df_reserves)}")
 print(f"Type of texts: {type(texts)}")
 
-st.pyplot(map_plot(df_final, df_reserves, texts, font_size, show_lines))
-
-st.pyplot(map_plot(df_final, texts, font_size, show_lines))
+st.pyplot(map_plot(df=df_final, df_reserves=df_reserves, texts=texts, font_size=font_size, show_lines=show_lines))
