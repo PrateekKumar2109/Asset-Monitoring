@@ -137,5 +137,11 @@ elif option == 'GI':
     df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
     texts = ["GI m3/d"]
     font_size = 11
+# existing code above...
+
+print(f"Type of df_reserves: {type(df_reserves)}")
+print(f"Type of texts: {type(texts)}")
+
+st.pyplot(map_plot(df_final, df_reserves, texts, font_size, show_lines))
 
 st.pyplot(map_plot(df_final, texts, font_size, show_lines))
