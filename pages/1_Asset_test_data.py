@@ -44,12 +44,14 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
     for area in df_reserves['area'].unique():
         if area in area_coords:
             df_area = df_reserves[df_reserves['area'] == area]
+            text_rows = []
             for column in selected_columns:
                 value = df_area[column].sum()  # or any other aggregation you need
                 value = round(value, 2)  # round off the value
-                plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
-                         color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
- 
+                text_rows.append(f"{column}: {value}")
+            full_text = f"{area}\n" + "\n".join(text_rows)
+            plt.text(area_coords[area]['long'], area_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
+                     color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
 
     for i in range(len(df)):
