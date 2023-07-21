@@ -50,7 +50,6 @@ text_res = {
     'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"}
 }
 
-
 st.set_page_config(layout="wide") 
 
 def map_plot(df, df_reserves, texts, font_size, show_lines=False):
@@ -100,8 +99,8 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
             end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
             plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
 
-    for area in text_res.keys():
-        full_text = "\n".join(text_res[area])
+    for area, texts in text_res.items():
+        full_text = f"{area}\n" + "\n".join(texts)
         plt.text(text_res_coords[area]['long'], text_res_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
                  color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
@@ -152,4 +151,3 @@ print(f"Type of df_reserves: {type(df_reserves)}")
 print(f"Type of texts: {type(texts)}")
 
 st.pyplot(map_plot(df=df_final, df_reserves=df_reserves, texts=texts, font_size=font_size, show_lines=show_lines))
-
