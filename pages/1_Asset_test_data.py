@@ -26,9 +26,31 @@ area_coords = {
     'Ratna and R-Series': {'lat': 18.13, 'long': 72.25},
 }
 
+text_res_coords = {
+    'B134': {'lat': 18.805, 'long': 72.2042},
+    'B173A': {'lat': 18.905, 'long': 72.378},
+    'Heera': {'lat': 18.288, 'long': 72.2042},
+    'Neelam': {'lat': 18.488, 'long': 72.378},
+    'NW B173A': {'lat': 18.749, 'long': 72.235},
+    'R-12': {'lat': 18.31, 'long': 72.378},
+    'R-10': {'lat': 18.13, 'long': 72.316},
+    'R-7': {'lat': 18.018, 'long': 72.316},
+    'R-9': {'lat': 18.018, 'long': 72.418}
+}
+
+text_res = {
+    'B134': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
+    'B173A': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
+    'Heera': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi","Pb=1400psi","Pi P: 2100-2200psi", "Pr P: 1200-1400psi","Pb=1600psi"},
+    'Neelam': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
+    'NW B173A': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
+    'R-12': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi","Pb=1400psi","Pi P: 2100-2200psi", "Pr P: 1200-1400psi","Pb=1600psi"},
+    'R-10': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
+    'R-7': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
+    'R-9': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"}
+}
 
 st.set_page_config(layout="wide") 
-
 
 def map_plot(df, df_reserves, texts, font_size, show_lines=False):
     fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
@@ -37,8 +59,7 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
     
     selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
-    
-    # Safety check: Make sure 'area' column exists in df_reserves
+
     if 'area' not in df_reserves.columns:
         raise ValueError("'area' column not found in df_reserves DataFrame")
     for area in df_reserves['area'].unique():
@@ -46,13 +67,12 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
             df_area = df_reserves[df_reserves['area'] == area]
             text_rows = []
             for column in selected_columns:
-                value = df_area[column].sum()  # or any other aggregation you need
-                value = round(value, 2)  # round off the value
+                value = df_area[column].sum()  
+                value = round(value, 2)  
                 text_rows.append(f"{column}: {value}")
             full_text = f"{area}\n" + "\n".join(text_rows)
             plt.text(area_coords[area]['long'], area_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
                      color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
 
     for i in range(len(df)):
         row = df.iloc[i]
@@ -67,10 +87,10 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
 
     if show_lines:
         lines = [
-            {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30, "texts": [("Sector-I", 'bottom', 'left')]},
-            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13, "texts": [("Sector-II", 'top', 'left'), ("Sector-III", 'bottom', 'left')]},
-            {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12, "texts": [("South Heera", 'bottom', 'left')]},
-            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.06, "angle": 145, "texts": [("Mid Heera", 'top', 'right'), ("North Heera", 'bottom', 'right')]}
+            {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30},
+            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13},
+            {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12},
+            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.06, "angle": 145}
         ]
 
         for line in lines:
@@ -78,14 +98,11 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
             end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
             end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
             plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
-            
-            for text, va, ha in line['texts']:
-                
-                text_x, text_y = (end_lon, end_lat) if line is lines[3] else (line["start_lon"], line["start_lat"])
-                text_x -= 0.015  # Shift text_x by -0.1
-                text_y -= 0.015  # Shift text_y by -0.1
-                ax.text(text_x, text_y, text, va=va, ha=ha, fontsize=font_size,
-                        color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+
+    for area in text_res.keys():
+        full_text = "\n".join(text_res[area])
+        plt.text(text_res_coords[area]['long'], text_res_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
+                 color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
     plt.title('Offshore Platforms', fontsize=24)  
     plt.gca().axes.get_xaxis().set_visible(False)  
@@ -102,17 +119,6 @@ if option == 'None':
     texts = []
     font_size = 16
     show_lines = True
-    # new plot
-    selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
-    for area in df_reserves['area'].unique():
-        if area in area_coords:
-            df_area = df_reserves[df_reserves['area'] == area]
-            for column in selected_columns:
-                value = df_area[column].sum()  # or any other aggregation you need
-                plt.text(area_coords[area]['long'], area_coords[area]['lat'], f"{area}\n{column}: {value}", va='bottom', ha='left', fontsize=16,
-                         color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
-    #st.pyplot(map_plot(df_final, texts, font_size, show_lines))
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
@@ -140,9 +146,9 @@ elif option == 'GI':
     df_final["GI m3/d"] = df_final["GI m3/d"].astype(int)
     texts = ["GI m3/d"]
     font_size = 11
-# existing code above...
 
 print(f"Type of df_reserves: {type(df_reserves)}")
 print(f"Type of texts: {type(texts)}")
 
 st.pyplot(map_plot(df=df_final, df_reserves=df_reserves, texts=texts, font_size=font_size, show_lines=show_lines))
+
