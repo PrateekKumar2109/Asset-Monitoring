@@ -39,16 +39,17 @@ text_res_coords = {
 }
 
 text_res = {
-    'B134': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
-    'B173A': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
-    'Heera': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi","Pb=1400psi","Pi P: 2100-2200psi", "Pr P: 1200-1400psi","Pb=1600psi"},
-    'Neelam': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
-    'NW B173A': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi"},
-    'R-12': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi","Pb=1400psi","Pi P: 2100-2200psi", "Pr P: 1200-1400psi","Pb=1600psi"},
-    'R-10': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
-    'R-7': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"},
-    'R-9': {"Pi B: 2000-2100psi", "Pr B: 1100-1400psi","Pb=1600psi","Pi M: 2000-2100psi", "Pr M: 1100-1400psi"}
+    'B134': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
+    'B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
+    'Heera': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb=1600\\psi"},
+    'Neelam': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
+    'NW B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
+    'R-12': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb=1600\\psi"},
+    'R-10': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
+    'R-7': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
+    'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"}
 }
+
 
 st.set_page_config(layout="wide") 
 
