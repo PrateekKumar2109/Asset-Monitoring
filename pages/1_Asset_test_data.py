@@ -27,7 +27,7 @@ area_coords = {
 }
 
 text_res_coords = {
-    'B134': {'lat': 18.905, 'long': 72.2029},
+    'B134': {'lat': 18.905, 'long': 72.2027},
     'B173A': {'lat': 18.905, 'long': 72.378},
     'Heera': {'lat': 18.288, 'long': 72.2042},
     'Neelam': {'lat': 18.488, 'long': 72.378},
