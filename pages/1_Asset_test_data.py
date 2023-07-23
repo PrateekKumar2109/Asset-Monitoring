@@ -50,7 +50,7 @@ text_res = {
     'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"}
 }
 new_text_box = {
-    'text': "Aban-VIII: HE\n FD-IX: HN\n, GD Chaaru: NLM5\n, GD Chaaya: HS\n,JT Angel: HT",
+    'text': "Aban-VIII: HE\nFD-IX: HN\nGD Chaaru: NLM5\nGD Chaaya: HS\nJT Angel: HT",
     'coords': {'lat': 18.488, 'long': 72.316}
 }
 
