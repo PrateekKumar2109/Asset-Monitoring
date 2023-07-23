@@ -60,40 +60,32 @@ for key, values in text_res.items():
 
 st.set_page_config(layout="wide") 
 
-def map_plot(df, df_reserves, texts, font_size, show_lines=False):
+selected_columns = ['Oil Inplace', 'Oil Ultimate', 'Oil Production', 'Oil Balance Reserves']
+
+def map_plot(df, df_reserves, texts, font_size, show_lines=False, selected_columns=None, text_res=None, text_res_coords=None, new_text_box=None):
     fig, ax = plt.subplots(figsize=(20, 16),dpi=600)  
     ax.set_facecolor('#e6f3ff') 
 
     sns.scatterplot(data=df, x='Longitude', y='Latitude', hue='Field', ax=ax, s=60)
 
-    for i in range(len(df)):
-        row = df.iloc[i]
-        if texts:
-            text = f"{row['Platform']}\n" + "\n".join([f"{text}: {row[text]}" for text in texts])
-            text_color = 'orange' if row['Rig'] == 'yes' else 'black'
-            ax.text(row['Longitude'], row['Latitude'], text, va='bottom', ha='left', fontsize=font_size, color=text_color,
-                    bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-        else:
-            ax.text(row['Longitude'], row['Latitude'], f"{row['Platform']}", va='bottom', ha='left', fontsize=16,
-                    color='green' if row['Rig'] == 'yes' else 'black')
+    if selected_columns and text_res and text_res_coords and new_text_box:
+        for area in df_reserves['area'].unique():
+            if area in area_coords:
+                df_area = df_reserves[df_reserves['area'] == area]
+                text_rows = []
+                for column in selected_columns:
+                    value = df_area[column].sum()  
+                    value = round(value, 2)  
+                    text_rows.append(f"{column}: {value}")
+                full_text = f"{area}\n" + "\n".join(text_rows)
+                plt.text(area_coords[area]['long'], area_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
+                         color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
-    if show_lines:
-        lines = [
-            {"start_lat": 18.72, "start_lon": 72.315, "length": 0.04, "angle": 30},
-            {"start_lat": 18.77, "start_lon": 72.29, "length": 0.05, "angle": -13},
-            {"start_lat": 18.50, "start_lon": 72.24, "length": 0.04, "angle": 12},
-            {"start_lat": 18.609, "start_lon": 72.259, "length": 0.06, "angle": 145}
-        ]
-
-        for line in lines:
-            angle_rad = np.deg2rad(line["angle"])
-            end_lat = line["start_lat"] + line["length"] * np.sin(angle_rad)
-            end_lon = line["start_lon"] + line["length"] * np.cos(angle_rad)
-            plt.plot([line["start_lon"], end_lon], [line["start_lat"], end_lat], linestyle='dashed', color='black')
-
-    plt.title('Offshore Platforms', fontsize=24)  
-    plt.gca().axes.get_xaxis().set_visible(False)  
-    plt.gca().axes.get_yaxis().set_visible(False) 
+        for area, texts in text_res.items():
+            full_text = f"{area}\n" + "\n".join(texts)
+            plt.text(text_res_coords[area]['long'], text_res_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
+                     color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+        plt.text(new_text_box['coords']['long'], new_text_box['coords']['lat'], new_text_box['text'], va='bottom', ha='left', fontsize=16, color='green', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
 
     return fig
 
@@ -106,26 +98,6 @@ if option == 'None':
     texts = []
     font_size = 16
     show_lines = True
-
-    for area, texts in text_res.items():
-        full_text = f"{area}\n" + "\n".join(texts)
-        plt.text(text_res_coords[area]['long'], text_res_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
-                 color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
-    plt.text(new_text_box['coords']['long'], new_text_box['coords']['lat'], new_text_box['text'], va='bottom', ha='left', fontsize=16, color='green', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
-    for area in df_reserves['area'].unique():
-        if area in area_coords:
-            df_area = df_reserves[df_reserves['area'] == area]
-            text_rows = []
-            for column in selected_columns:
-                value = df_area[column].sum()  
-                value = round(value, 2)  
-                text_rows.append(f"{column}: {value}")
-            full_text = f"{area}\n" + "\n".join(text_rows)
-            plt.text(area_coords[area]['long'], area_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
-                     color='blue', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
 elif option == 'OP':
     df_final = df_final[df_final['LIQUID RATE(BLPD)'] > 0.1]
     column_rename_dict = {"LIQUID RATE(BLPD)": "L blpd", "OIL(BOPD)": "O bopd"}
