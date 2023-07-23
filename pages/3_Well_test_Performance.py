@@ -35,25 +35,25 @@ elif type_filter == 'GP':
                                  (merged_data['Flowing/Closed'] == flowing_closed_filter) & (merged_data['Free gas'] >= gp_filter)]
 
 # Find the latest date for each WELL STRING in the filtered data
-latest_dates = filtered_data.groupby('WELL STRING')['TEST DATE'].max()
+latest_dates = filtered_data.groupby('WELL STRING')['TEST DATE'].idxmax()
 
-# Filter the WELL STRING in the filtered data based on the latest dates
-filtered_data = filtered_data[filtered_data.groupby('WELL STRING')['TEST DATE'].transform('max') == filtered_data['TEST DATE']]
+# Get the corresponding WELL STRING values
+latest_well_strings = filtered_data.loc[latest_dates]['WELL STRING'].unique()
 
 # Display the count of "WELL STRING" column values based on the filters
 st.title(f"Filtered WELL STRING values")
-st.write(filtered_data['WELL STRING'].unique())
-st.write(f"Total count: {filtered_data['WELL STRING'].nunique()}")
+st.write(latest_well_strings)
+st.write(f"Total count: {len(latest_well_strings)}")
+
+# Filter the original dataframe based on these WELL STRING values
+filtered_merged_data = merged_data[merged_data['WELL STRING'].isin(latest_well_strings)]
 
 # Interactive plots
 st.title(f"Interactive plots based on filters")
 
-well_strings = filtered_data['WELL STRING'].unique()
-
-for well_string in well_strings:
+for well_string in latest_well_strings:
     st.markdown(f"## {well_string}")
-    # Extract all recorded data for this WELL STRING from the original dataset
-    well_data = merged_data[merged_data['WELL STRING'] == well_string]
+    well_data = filtered_merged_data[filtered_merged_data['WELL STRING'] == well_string]
     
     if type_filter == 'OP':
         fig, axs = plt.subplots(2, figsize=(10, 10))
