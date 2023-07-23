@@ -169,7 +169,7 @@ import plotly.graph_objects as go
 
 # Read your data here
 # df = pd.read_csv('df.csv')
-df_final_url = "https://github.com/PrateekKumar2109/Assset-production-monitoring/blob/main/Data/platform_lat_long.csv"
+df_final_url = "https://github.com/PrateekKumar2109/Assset-production-monitoring/blob/main/Data/platform_lat_long1.csv"
 df_final = pd.read_csv(df_final_url)
 # df_final = pd.read_csv('df_final.csv')
 df_url = "https://raw.githubusercontent.com/PrateekKumar2109/Assset-production-monitoring/main/Data/pipeline_basic.csv"
@@ -177,17 +177,7 @@ df = pd.read_csv(df_url)
 
 # Select only rows having 'Well head' or 'Process Complex' in 'Platform type'
 df_final = df_final[df_final['Platform type'].isin(['Well head', 'Process Complex'])]
-def dms_to_dd(dms):
-    """Converts degrees, minutes, seconds to decimal degrees."""
-    parts = re.split('[°\'" ]+', dms)
-    parts = [x for x in parts if x]  # remove any empty strings resulting from split
-    degrees, minutes, seconds = parts[0], parts[1], parts[2]
-    dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);
-    return dd
 
-# Convert DMS to DD for Latitude and Longitude
-df_final['Latitude'] = df_final['Latitude'].apply(dms_to_dd)
-df_final['Longitude'] = df_final['Longitude'].apply(dms_to_dd)
 # Join df and df_final to get the coordinates for 'Source' and 'Receiver'
 df = df.merge(df_final[['Platform', 'Latitude', 'Longitude']], left_on='Source', right_on='Platform', how='left')
 df = df.rename(columns={'Latitude': 'Source Latitude', 'Longitude': 'Source Longitude'})
