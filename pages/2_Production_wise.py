@@ -25,6 +25,9 @@ platforms = {
     'Asset': slice(40, 48)
 }
 
+# Reordering the platforms
+platforms = {'Asset': platforms['Asset']} | {key: platforms[key] for key in platforms if key != 'Asset'}
+
 # Define the names of the metrics to be plotted
 metrics = ['Liquid , blpd', 'Oil,bopd', 'Total Gas,  MMSCMD']
 
