@@ -49,6 +49,11 @@ text_res = {
     'R-7': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"},
     'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"}
 }
+new_text_box = {
+    'text': "Aban-VIII: HE\n FD-IX: HN\n, GD Chaaru: NLM5\n, GD Chaaya: HS\n,JT Angel: HT",
+    'coords': {'lat': 18.488, 'long': 72.316}
+}
+
 
 for key, values in text_res.items():
     text_res[key] = {value.replace('\\psi', '') for value in values}
@@ -109,7 +114,9 @@ def map_plot(df, df_reserves, texts, font_size, show_lines=False):
         full_text = f"{area}\n" + "\n".join(texts)
         plt.text(text_res_coords[area]['long'], text_res_coords[area]['lat'], full_text, va='bottom', ha='left', fontsize=16,
                  color='red', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
-
+    if option == 'None':
+        plt.text(new_text_box['coords']['long'], new_text_box['coords']['lat'], new_text_box['text'], va='bottom', ha='left', fontsize=16, color='green', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2'))
+  
     plt.title('Offshore Platforms', fontsize=24)  
     plt.gca().axes.get_xaxis().set_visible(False)  
     plt.gca().axes.get_yaxis().set_visible(False) 
