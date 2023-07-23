@@ -39,16 +39,22 @@ text_res_coords = {
 }
 
 text_res = {
-    'B134': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
-    'B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
-    'Heera': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb=1600\\psi"},
-    'Neelam': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
-    'NW B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi"},
-    'R-12': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb=1600\\psi"},
-    'R-10': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
-    'R-7': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"},
-    'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi"}
+    'B134': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi"},
+    'B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi"},
+    'Heera': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb P=1600\\psi"},
+    'Neelam': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"},
+    'NW B173A': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi"},
+    'R-12': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi","Pi P: 2100-2200\\psi", "Pr P: 1200-1400\\psi","Pb P=1600\\psi"},
+    'R-10': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"},
+    'R-7': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"},
+    'R-9': {"Pi B: 2000-2100\\psi", "Pr B: 1100-1400\\psi","Pb B=1600\\psi","Pi M: 2000-2100\\psi", "Pr M: 1100-1400\\psi","Pb M=1400\\psi"}
 }
+
+for key, values in text_res.items():
+    text_res[key] = {value.replace('\\psi', '') for value in values}
+
+#print(text_res)
+
 
 st.set_page_config(layout="wide") 
 
