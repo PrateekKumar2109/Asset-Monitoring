@@ -164,3 +164,87 @@ print(f"Type of df_reserves: {type(df_reserves)}")
 print(f"Type of texts: {type(texts)}")
 
 st.pyplot(map_plot(df=df_final, df_reserves=df_reserves, texts=texts, font_size=font_size, show_lines=show_lines))
+
+import plotly.graph_objects as go
+
+# Read your data here
+# df = pd.read_csv('df.csv')
+df_final_url = "https://github.com/PrateekKumar2109/Assset-production-monitoring/blob/main/Data/platform_lat_long.csv"
+df_final = pd.read_csv(df_final_url)
+# df_final = pd.read_csv('df_final.csv')
+df_url = "https://raw.githubusercontent.com/PrateekKumar2109/Assset-production-monitoring/main/Data/pipeline_basic.csv"
+df = pd.read_csv(df_url)
+
+# Select only rows having 'Well head' or 'Process Complex' in 'Platform type'
+df_final = df_final[df_final['Platform type'].isin(['Well head', 'Process Complex'])]
+
+# Join df and df_final to get the coordinates for 'Source' and 'Receiver'
+df = df.merge(df_final[['Platform', 'Latitude', 'Longitude']], left_on='Source', right_on='Platform', how='left')
+df = df.rename(columns={'Latitude': 'Source Latitude', 'Longitude': 'Source Longitude'})
+df = df.merge(df_final[['Platform', 'Latitude', 'Longitude']], left_on='Receiver', right_on='Platform', how='left')
+df = df.rename(columns={'Latitude': 'Receiver Latitude', 'Longitude': 'Receiver Longitude'})
+
+# Sidebar
+st.sidebar.header('Filters')
+selected_service = st.sidebar.multiselect('Service', df['Service'].unique())
+
+# Filter the DataFrame based on the selected service
+df_filtered = df[df['Service'].isin(selected_service)]
+
+# Colors mapping
+colors = {'WF': 'green', 'G/L': 'brown', 'Free Gas': 'red', 'WI': 'blue'}
+
+# Initialize a plotly figure
+fig = go.Figure()
+
+# Plot the filtered DataFrame
+for service in selected_service:
+    df_service = df_filtered[df_filtered['Service'] == service]
+    fig.add_trace(go.Scattergeo(
+        lon = df_service['Source Longitude'],
+        lat = df_service['Source Latitude'],
+        mode = 'markers',
+        marker_color = colors[service],
+    ))
+
+    # Add curved lines between source and receiver
+    for i in range(len(df_service)):
+        fig.add_trace(
+            go.Scattergeo(
+                lon = [df_service.iloc[i]['Source Longitude'], df_service.iloc[i]['Receiver Longitude']],
+                lat = [df_service.iloc[i]['Source Latitude'], df_service.iloc[i]['Receiver Latitude']],
+                mode = 'lines',
+                line = dict(width = 2,color = colors[service]),
+                opacity = 0.5,
+                geojson = dict(type = "FeatureCollection", features = [dict(type = "Feature",
+                    geometry = dict(type = "LineString", coordinates = [[df_service.iloc[i]['Source Longitude'], df_service.iloc[i]['Source Latitude']],
+                    [df_service.iloc[i]['Receiver Longitude'], df_service.iloc[i]['Receiver Latitude']]]))])
+            )
+        )
+
+fig.update_layout(
+    title_text = 'Service Locations and Connections',
+    showlegend = False,
+    geo = dict(
+        resolution = 50,
+        showland = True,
+        showlakes = True,
+        landcolor = 'rgb(204, 204, 204)',
+        countrycolor = 'rgb(204, 204, 204)',
+        lakecolor = 'rgb(255, 255, 255)',
+        projection_type = "equirectangular",
+        coastlinewidth = 2,
+        lataxis = dict(
+            range = [20, 60],
+            showgrid = True,
+            dtick = 10
+        ),
+        lonaxis = dict(
+            range = [-100, 20],
+            showgrid = True,
+            dtick = 20
+        ),
+    )
+)
+
+st.plotly_chart(fig)
