@@ -170,10 +170,13 @@ import plotly.graph_objects as go
 # Read your data here
 # df = pd.read_csv('df.csv')
 df_final_url = "https://github.com/PrateekKumar2109/Assset-production-monitoring/blob/main/Data/platform_lat_long1.csv"
-df_final = pd.read_csv(df_final_url)
+#df_final = pd.read_csv(df_final_url)
 # df_final = pd.read_csv('df_final.csv')
 df_url = "https://raw.githubusercontent.com/PrateekKumar2109/Assset-production-monitoring/main/Data/pipeline_basic.csv"
-df = pd.read_csv(df_url)
+#df = pd.read_csv(df_url)
+# Read your data here
+df_final = pd.read_csv(df_final_url, error_bad_lines=False)
+df = pd.read_csv(df_url, error_bad_lines=False)
 
 # Select only rows having 'Well head' or 'Process Complex' in 'Platform type'
 df_final = df_final[df_final['Platform type'].isin(['Well head', 'Process Complex'])]
