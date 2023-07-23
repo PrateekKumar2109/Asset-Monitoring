@@ -18,20 +18,20 @@ df_reserves = df_reserves[(df_reserves['Status'] == 'Producing') & (df_reserves[
 
 # mapping of area names to coordinates
 area_coords = {
-    'B134': {'lat': 18.90, 'long': 72.23},
+    'NW B173A': {'lat': 18.90, 'long': 72.23},
     'B173A': {'lat': 18.90, 'long': 72.324},
     'Heera': {'lat': 18.488, 'long': 72.316},
     'Neelam': {'lat': 18.671, 'long': 72.378},
-    'NW B173A':{'lat': 18.749, 'long': 72.2037},
+    'B134':{'lat': 18.749, 'long': 72.2037},
     'Ratna and R-Series': {'lat': 18.13, 'long': 72.25},
 }
 
 text_res_coords = {
-    'B134': {'lat': 18.905, 'long': 72.202},
+    'B134': {'lat': 18.749, 'long': 72.255},
     'B173A': {'lat': 18.905, 'long': 72.378},
     'Heera': {'lat': 18.288, 'long': 72.2042},
     'Neelam': {'lat': 18.488, 'long': 72.378},
-    'NW B173A': {'lat': 18.749, 'long': 72.255},
+    'NW B173A':{'lat': 18.905, 'long': 72.202},
     'R-12': {'lat': 18.21, 'long': 72.378},
     'R-10': {'lat': 18.18, 'long': 72.316},
     'R-7': {'lat': 18.01, 'long': 72.316},
